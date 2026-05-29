@@ -1462,6 +1462,32 @@
             text-underline-offset: 3px;
         }
 
+        .privacy-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: -4px 0 22px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            background: #fffaf3;
+            border: 1px solid rgba(38, 50, 56, 0.14);
+        }
+
+        .privacy-badge img {
+            width: 72px;
+            height: auto;
+            flex: 0 0 auto;
+            object-fit: contain;
+        }
+
+        .privacy-badge p {
+            margin: 0;
+            color: #455a64;
+            font-size: 13px;
+            font-weight: 800;
+            line-height: 1.55;
+        }
+
         .sent-message {
             display: none;
             margin-top: 16px;
@@ -1603,6 +1629,31 @@
             gap: 20px;
         }
 
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .footer-pmark {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            font-size: 12px;
+            line-height: 1.45;
+        }
+
+        .footer-pmark img {
+            width: 64px;
+            height: auto;
+            padding: 5px;
+            border-radius: 6px;
+            background: #fff;
+            object-fit: contain;
+        }
+
         .footer-links {
             display: flex;
             gap: 18px;
@@ -1734,7 +1785,7 @@
     <header class="site-header">
         <div class="container header-inner">
             <a class="brand" href="#top" aria-label="業務アプリ工房のトップへ">
-                <img class="brand-logo" src="assets/LOGO_業務アプリ工房_テキスト大.png" alt="業務アプリ工房">
+                <img class="brand-logo" src="assets/logo-gyomu-app-kobo-600.png" alt="業務アプリ工房">
             </a>
             <nav class="nav" aria-label="主要ナビゲーション">
                 <a href="#concept">コンセプト</a>
@@ -1778,7 +1829,7 @@
                     </div>
                     <div class="hero-side">
                         <div class="diy-logo-card" aria-label="製造業の現場アプリを表すイラスト">
-                            <img class="hero-scene" src="assets/hero-manufacturing-devices.png" alt="タブレットとスマートフォンを使った製造業向け現場アプリのイラスト">
+                            <img class="hero-scene" src="assets/hero-manufacturing-devices-900.jpg" alt="タブレットとスマートフォンを使った製造業向け現場アプリのイラスト">
                         </div>
                     </div>
                 </div>
@@ -1831,7 +1882,7 @@
                 <div class="sample-showcase">
                     <article class="sample-panel">
                         <div class="sample-visual" aria-hidden="true">
-                            <img class="sample-image" src="assets/sample-change4m.png" alt="">
+                            <img class="sample-image" src="assets/sample-change4m-900.jpg" alt="">
                         </div>
                         <div class="sample-copy">
                             <div class="sample-title">
@@ -1853,7 +1904,7 @@
                     </article>
                     <article class="sample-panel">
                         <div class="sample-visual" aria-hidden="true">
-                            <img class="sample-image" src="assets/sample-failure-report.png" alt="">
+                            <img class="sample-image" src="assets/sample-failure-report-900.jpg" alt="">
                         </div>
                         <div class="sample-copy">
                             <div class="sample-title">
@@ -1876,7 +1927,7 @@
                     </article>
                     <article class="sample-panel" id="works">
                         <div class="sample-visual" aria-hidden="true">
-                            <img class="sample-image" src="assets/sample-general-app.png" alt="">
+                            <img class="sample-image" src="assets/sample-general-app-900.jpg" alt="">
                         </div>
                         <div class="sample-copy">
                             <div class="sample-title">
@@ -2021,7 +2072,7 @@
                         <div class="case-visual">
                             <span class="case-label">製造日報・作業実績</span>
                             <div class="case-illustration" aria-hidden="true">
-                                <img src="assets/case-daily-report.png" alt="">
+                                <img src="assets/case-daily-report-900.jpg" alt="">
                             </div>
                         </div>
                         <div class="case-content">
@@ -2056,7 +2107,7 @@
                         <div class="case-visual">
                             <span class="case-label">設備点検・保全記録</span>
                             <div class="case-illustration" aria-hidden="true">
-                                <img src="assets/case-equipment-inspection.png" alt="">
+                                <img src="assets/case-equipment-inspection-900.jpg" alt="">
                             </div>
                         </div>
                         <div class="case-content">
@@ -2091,7 +2142,7 @@
                         <div class="case-visual">
                             <span class="case-label">在庫・工具持ち出し</span>
                             <div class="case-illustration" aria-hidden="true">
-                                <img src="assets/case-inventory-tools.png" alt="">
+                                <img src="assets/case-inventory-tools-900.jpg" alt="">
                             </div>
                         </div>
                         <div class="case-content">
@@ -2262,6 +2313,10 @@
                         <input id="privacy-consent" name="privacyConsent" type="checkbox" required>
                         <span><a href="https://evoltech-hdc-system.com/%E5%80%8B%E4%BA%BA%E6%83%85%E5%A0%B1%E4%BF%9D%E8%AD%B7%E6%96%B9%E9%87%9D/" target="_blank" rel="noopener">個人情報保護方針</a>に同意します</span>
                     </label>
+                    <div class="privacy-badge" aria-label="プライバシーマーク" data-pmark>
+                        <img src="assets/pmark.gif" alt="プライバシーマーク" onerror="this.remove()">
+                        <p>当社はプライバシーマーク付与事業者として、個人情報を適切に取り扱います。</p>
+                    </div>
                     <button class="button" type="button" onclick="showSentMessage()">
                         <span>この内容で送信する</span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6l6 6-6 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -2274,7 +2329,13 @@
 
     <footer class="site-footer">
         <div class="container footer-inner">
-            <div>© 2026 業務アプリ工房 All Rights Reserved.</div>
+            <div class="footer-brand">
+                <div>© 2026 業務アプリ工房 All Rights Reserved.</div>
+                <div class="footer-pmark" aria-label="プライバシーマーク" data-pmark>
+                    <img src="assets/pmark.gif" alt="プライバシーマーク" onerror="this.remove()">
+                    <span>プライバシーマーク<br>付与事業者</span>
+                </div>
+            </div>
             <div class="footer-links">
                 <a href="#concept">コンセプト</a>
                 <a href="#services">サービス</a>
