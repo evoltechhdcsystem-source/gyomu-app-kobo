@@ -220,7 +220,7 @@
             max-width: 720px;
             margin-bottom: 22px;
             color: #fff;
-            font-size: clamp(30px, 4.6vw, 54px);
+            font-size: clamp(42px, 4.6vw, 54px);
             line-height: 1.08;
             letter-spacing: 0;
             text-shadow: 4px 4px 0 var(--line);
@@ -362,6 +362,10 @@
 
         #faq {
             background: #fffaf3;
+        }
+
+        #notes {
+            background: #f4f8f9;
         }
 
         #contact {
@@ -946,6 +950,77 @@
             line-height: 1.75;
         }
 
+        .usage-notes {
+            display: grid;
+            grid-template-columns: minmax(0, 0.92fr) minmax(320px, 1.08fr);
+            gap: 30px;
+            align-items: start;
+        }
+
+        .usage-note-lead {
+            padding: 26px;
+            border-left: 10px solid var(--orange);
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: var(--soft-shadow);
+        }
+
+        .usage-note-lead p {
+            margin-bottom: 0;
+            color: #455a64;
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .usage-note-list {
+            display: grid;
+            gap: 14px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .usage-note-list li {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 12px;
+            align-items: start;
+            padding: 18px 20px;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 12px 26px rgba(38, 50, 56, 0.09);
+        }
+
+        .usage-note-list li::before {
+            content: "!";
+            width: 28px;
+            height: 28px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            color: #fff;
+            background: var(--orange);
+            font-size: 16px;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .usage-note-list strong {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--ink);
+            font-size: 16px;
+            font-weight: 900;
+        }
+
+        .usage-note-list p {
+            margin: 0;
+            color: #455a64;
+            font-size: 14px;
+            font-weight: 800;
+            line-height: 1.75;
+        }
+
         .sample-button {
             min-height: 44px;
             display: inline-flex;
@@ -973,6 +1048,55 @@
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 22px;
             align-items: stretch;
+        }
+
+        .option-service {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            gap: 18px;
+            align-items: start;
+            margin-top: 28px;
+            padding: 24px;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: var(--soft-shadow);
+        }
+
+        .option-service-icon {
+            width: 52px;
+            height: 52px;
+            display: grid;
+            place-items: center;
+            border: 4px solid var(--line);
+            border-radius: 8px;
+            color: var(--ink);
+            background: var(--green);
+        }
+
+        .option-service h3 {
+            margin-bottom: 6px;
+            color: var(--ink);
+            font-size: clamp(22px, 2.6vw, 30px);
+            line-height: 1.2;
+        }
+
+        .option-service-title {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: baseline;
+        }
+
+        .option-service-title strong {
+            color: inherit;
+            font: inherit;
+        }
+
+        .option-service p {
+            margin-bottom: 0;
+            color: #455a64;
+            font-size: 16px;
+            font-weight: 800;
         }
 
         .pricing-intro {
@@ -1230,6 +1354,33 @@
             font-size: 14px;
             font-weight: 900;
             line-height: 1;
+        }
+
+        .pack-section-label[data-kind="function"] + .pack-list li {
+            grid-template-columns: 34px 1fr;
+            gap: 12px;
+            font-size: 17px;
+            font-weight: 900;
+            line-height: 1.5;
+        }
+
+        .pack-section-label[data-kind="function"] + .pack-list li::before {
+            width: 30px;
+            height: 30px;
+            font-size: 17px;
+        }
+
+        .price-pack.custom .pack-section-label[data-kind="function"] + .pack-list li {
+            grid-template-columns: 34px 1fr;
+            gap: 12px;
+            font-size: 17px;
+            line-height: 1.5;
+        }
+
+        .price-pack.custom .pack-section-label[data-kind="function"] + .pack-list li::before {
+            width: 30px;
+            height: 30px;
+            font-size: 17px;
         }
 
         .pack-note {
@@ -1625,6 +1776,75 @@
             font-weight: 900;
         }
 
+        .company-overview {
+            padding-top: 0;
+        }
+
+        .company-panel {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(320px, 1.15fr);
+            gap: 34px;
+            align-items: start;
+            padding: 34px;
+            border: 5px solid var(--line);
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: var(--soft-shadow);
+        }
+
+        .company-panel .section-head {
+            margin-bottom: 0;
+        }
+
+        .company-lead {
+            margin: 0;
+            color: #455a64;
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .company-table {
+            display: grid;
+            grid-template-columns: 110px minmax(0, 1fr);
+            margin: 0;
+            overflow: hidden;
+            border: 1px solid rgba(38, 50, 56, 0.16);
+            border-radius: 6px;
+            background: #fffaf3;
+        }
+
+        .company-table dt,
+        .company-table dd {
+            margin: 0;
+            padding: 13px 14px;
+            border-bottom: 1px solid rgba(38, 50, 56, 0.14);
+            font-size: 14px;
+        }
+
+        .company-table dt {
+            color: #fff;
+            background: var(--ink);
+            font-weight: 900;
+        }
+
+        .company-table dd {
+            color: var(--ink);
+            background: #fff;
+            font-weight: 800;
+        }
+
+        .company-table dt:last-of-type,
+        .company-table dd:last-of-type {
+            border-bottom: 0;
+        }
+
+        .company-table a {
+            color: var(--orange);
+            text-decoration: underline;
+            text-decoration-thickness: 3px;
+            text-underline-offset: 3px;
+        }
+
         .footer-inner {
             display: flex;
             align-items: center;
@@ -1665,7 +1885,9 @@
             .pricing-intro,
             .pricing-layout,
             .faq-wrap,
-            .contact-wrap {
+            .usage-notes,
+            .contact-wrap,
+            .company-panel {
                 grid-template-columns: 1fr;
             }
 
@@ -1715,7 +1937,14 @@
             }
 
             h1 {
+                font-size: clamp(38px, 10.5vw, 42px);
+                line-height: 1.12;
                 text-shadow: 3px 3px 0 var(--line);
+            }
+
+            .hero .h1-line {
+                display: inline;
+                white-space: normal;
             }
 
             .form-grid {
@@ -1758,10 +1987,29 @@
                 padding: 14px;
             }
 
+            .usage-note-lead,
+            .usage-note-list li {
+                padding: 18px 16px;
+            }
+
             .footer-inner,
             .footer-links {
                 align-items: flex-start;
                 flex-direction: column;
+            }
+
+            .company-panel {
+                padding: 24px;
+            }
+
+            .company-table {
+                grid-template-columns: 92px minmax(0, 1fr);
+            }
+
+            .company-table dt,
+            .company-table dd {
+                padding: 11px 12px;
+                font-size: 13px;
             }
         }
     </style>
@@ -1792,9 +2040,8 @@
                     <div>
                         <p class="eyebrow">中小製造業向け スモールスタートDX</p>
                         <h1>
-                            <span class="h1-line">現場の「面倒くさい」を、</span>
-                            <span class="h1-line">最短1週間で</span>
-                            <span class="h1-line">アプリ化。</span>
+                            <span class="h1-line">現場の「面倒くさい」を</span>
+                            <span class="h1-line">1週間でアプリ化</span>
                         </h1>
                         <p class="hero-copy">
                             紙の日報や点検表をExcelへ打ち直す二度手間を、低コストな業務アプリで解決。<br>IT担当者がいない企業様にも、現場目線でわかりやすく支援します。
@@ -1804,7 +2051,7 @@
                             <a class="button secondary" href="#services">サービスを見る</a>
                         </div>
                         <ul class="hero-points" aria-label="サービスの特徴">
-                            <li>1画面 10,000円〜</li>
+                            <li>パーツ数で調整</li>
                             <li>1機能 5,000円〜</li>
                             <li>最短1週間で納品</li>
                             <li>ノーコード高速開発</li>
@@ -1881,6 +2128,7 @@
                                 <li>4Mごとに変化点を整理</li>
                                 <li>写真つきで現場状況を記録</li>
                                 <li>確認漏れを防ぐ一覧管理</li>
+                                <li>スマートフォン、タブレット、PC対応</li>
                             </ul>
                             <div class="card-actions">
                                 <a class="sample-button" href="#" data-sample-app="change4m">サンプルアプリを開く</a>
@@ -1944,13 +2192,17 @@
                 </div>
                 <div class="pricing-intro">
                     <div class="pricing-message">
-                        <h3>初期費用は「画面数 ＋ 機能」の組み合わせだけ</h3>
-                        <p>業務アプリ工房は、現場のDXを小さく始められるよう、「画面数」と「機能数」に応じた分かりやすい料金体系を採用しています。</p>
+                        <h3>初期費用は「画面数 ＋ パーツ数 ＋ 機能」の組み合わせだけ</h3>
+                        <p>業務アプリ工房は、現場のDXを小さく始められるよう、「画面数」「パーツ数」「機能数」に応じた分かりやすい料金体系を採用しています。</p>
                     </div>
                     <div class="price-unit-grid" aria-label="料金単位">
                         <div class="price-unit">
                             <strong>1画面 10,000円〜</strong>
                             <span>例：入力画面、一覧画面、集計画面など</span>
+                        </div>
+                        <div class="price-unit">
+                            <strong>パーツ数で調整</strong>
+                            <span>1画面内に表示・入力できるパーツ数を増やせます</span>
                         </div>
                         <div class="price-unit">
                             <strong>1機能 5,000円〜</strong>
@@ -2032,6 +2284,24 @@
                         </ul>
                     </article>
                 </div>
+                <article class="option-service">
+                    <div class="option-service-icon" aria-hidden="true">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M5 5h14v10H8l-3 3V5z" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 9h6M9 12h4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="option-service-title"><span>アプリ作成コンサル 1h</span><strong>￥2000</strong></h3>
+                        <p>どんなアプリを作ればいいかなどのご相談を承ります。</p>
+                    </div>
+                </article>
+                <article class="option-service">
+                    <div class="option-service-icon" aria-hidden="true">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M8 6h8M8 18h8M9 2h6a3 3 0 013 3v14a3 3 0 01-3 3H9a3 3 0 01-3-3V5a3 3 0 013-3z" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 15l4-4M12 15l-4-4M12 15V7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <div>
+                        <h3>App Store / Google Play公開申請代行</h3>
+                        <p>Google PlayまたはApp Storeへの公開申請を代行します。</p>
+                    </div>
+                </article>
                 <div class="running-cost">
                     <h3>ランニングコストについて</h3>
                     <p>アプリの利用には、別途ノーコードツール <a href="https://click.dev/" target="_blank" rel="noopener">Click</a> のProプラン加入が必要です。Clickの料金・機能の詳細は公式ページをご確認ください。</p>
@@ -2193,6 +2463,16 @@
             </div>
         </section>
 
+        <section class="cta">
+            <div class="container cta-inner">
+                <div>
+                    <h2>まずは、今の帳票を見せてください。</h2>
+                    <p>紙やExcelのフォーマットをそのままベースに、現場が迷わず使える小さなアプリから始められます。</p>
+                </div>
+                <a class="button" href="#contact">相談を始める</a>
+            </div>
+        </section>
+
         <section id="faq" class="section">
             <div class="container">
                 <div class="section-head">
@@ -2252,13 +2532,50 @@
             </div>
         </section>
 
-        <section class="cta">
-            <div class="container cta-inner">
-                <div>
-                    <h2>まずは、今の帳票を見せてください。</h2>
-                    <p>紙やExcelのフォーマットをそのままベースに、現場が迷わず使える小さなアプリから始められます。</p>
+        <section id="notes" class="section">
+            <div class="container">
+                <div class="section-head center">
+                    <h2>ご利用の注意事項</h2>
+                    <p class="lead">安心してご相談いただくために、事前にご確認ください。</p>
                 </div>
-                <a class="button" href="#contact">相談を始める</a>
+                <div class="usage-notes">
+                    <div class="usage-note-lead">
+                        <h3>小さく始めて、現場に合わせて育てます。</h3>
+                        <p>業務アプリ工房では、現在の帳票やExcelをもとに必要な機能から開発します。内容によって費用や納期が変わるため、まずは資料や写真を拝見したうえでお見積りします。</p>
+                    </div>
+                    <ul class="usage-note-list">
+                        <li>
+                            <div>
+                                <strong>Clickの利用料が別途必要です</strong>
+                                <p>Clickは、業務アプリを作成・運用できるノーコードのクラウドサービスです。アプリの運用には、Click Proプランの契約・月額費用が必要になります。</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <strong>ノーコードツールの仕様変更について</strong>
+                                <p>本サービスはClick等のノーコードツールを利用して構築します。ツール提供元の仕様変更に伴う機能変更については当社は責任を負いません。</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <strong>AIのAPI連携について</strong>
+                                <p>AI機能をAPI連携する場合は、別途OpenAI等の契約と料金が発生します。</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <strong>納期は資料確認後に確定します</strong>
+                                <p>最短納期は、必要な情報がそろっている場合の目安です。仕様確認や追加要望により調整する場合があります。</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <strong>本番利用前に確認をお願いします</strong>
+                                <p>納品後は、実際の運用に近いデータで動作をご確認ください。必要に応じて修正・調整をご相談いただけます。</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </section>
 
@@ -2310,6 +2627,32 @@
                 </form>
             </div>
         </section>
+
+        <section id="company" class="section company-overview">
+            <div class="container">
+                <div class="company-panel">
+                    <div class="section-head">
+                        <p class="eyebrow">COMPANY</p>
+                        <h2>運営会社</h2>
+                        <p class="company-lead">業務アプリ工房は、エボルテック株式会社が運営しています。</p>
+                    </div>
+                    <dl class="company-table">
+                        <dt>会社名</dt>
+                        <dd>エボルテック株式会社（Evoltech Co.,Ltd.）</dd>
+                        <dt>所在地</dt>
+                        <dd>〒450-0002 愛知県名古屋市中村区名駅2丁目41番10号 アストラーレ名駅7階</dd>
+                        <dt>設立</dt>
+                        <dd>2009年（平成21年）2月</dd>
+                        <dt>資本金</dt>
+                        <dd>1000万円</dd>
+                        <dt>代表者</dt>
+                        <dd>代表取締役社長 兵頭 武士</dd>
+                        <dt>公式サイト</dt>
+                        <dd><a href="https://www.evoltech.co.jp/" target="_blank" rel="noopener">https://www.evoltech.co.jp/</a></dd>
+                    </dl>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer class="site-footer">
@@ -2327,16 +2670,16 @@
     </footer>
 
     <script>
-        const revealTargets = document.querySelectorAll(".section-head, .intro-box, .card, .sample-panel, .pricing-intro, .price-unit, .running-cost, .estimate-cta, .price-pack, .case-card, .promise-card, .faq-group, .faq-item, .contact-note, form");
+        const revealTargets = document.querySelectorAll(".section-head, .intro-box, .card, .sample-panel, .pricing-intro, .price-unit, .option-service, .running-cost, .estimate-cta, .price-pack, .case-card, .promise-card, .faq-group, .faq-item, .usage-note-lead, .usage-note-list li, .contact-note, form");
 
         revealTargets.forEach((element) => {
             const siblings = Array.from(element.parentElement?.children || []);
-            const revealIndex = siblings.filter((item) => item.matches?.(".section-head, .intro-box, .card, .sample-panel, .pricing-intro, .price-unit, .running-cost, .estimate-cta, .price-pack, .case-card, .promise-card, .faq-group, .faq-item, .contact-note, form")).indexOf(element);
+            const revealIndex = siblings.filter((item) => item.matches?.(".section-head, .intro-box, .card, .sample-panel, .pricing-intro, .price-unit, .option-service, .running-cost, .estimate-cta, .price-pack, .case-card, .promise-card, .faq-group, .faq-item, .usage-note-lead, .usage-note-list li, .contact-note, form")).indexOf(element);
             const delay = Math.max(0, revealIndex) * 90;
 
             element.style.setProperty("--reveal-delay", `${Math.min(delay, 360)}ms`);
 
-            if (element.classList.contains("section-head") || element.classList.contains("pricing-intro") || element.classList.contains("contact-note")) {
+            if (element.classList.contains("section-head") || element.classList.contains("pricing-intro") || element.classList.contains("usage-note-lead") || element.classList.contains("contact-note")) {
                 element.classList.add("from-left");
             }
 
