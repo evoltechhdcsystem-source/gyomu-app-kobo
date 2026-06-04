@@ -1,0 +1,24 @@
+newmtl stone_gray
+Ka 0.55 0.55 0.52
+Kd 0.56 0.56 0.52
+Ks 0.18 0.18 0.16
+Ns 32
+
+newmtl stone_groove
+Ka 0.32 0.32 0.30
+Kd 0.34 0.34 0.31
+Ks 0.04 0.04 0.04
+Ns 10
+
+newmtl soft_black
+Ka 0.01 0.01 0.01
+Kd 0.005 0.005 0.005
+Ks 0.25 0.25 0.25
+Ns 80
+
+newmtl front_decal
+Ka 1 1 1
+Kd 1 1 1
+d 1
+map_Kd gyomu-text.svg
+map_d gyomu-text-alpha.svg

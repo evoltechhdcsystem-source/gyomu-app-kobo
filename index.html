@@ -76,7 +76,7 @@
 
         .brand-logo {
             width: auto;
-            height: 38px;
+            height: 58px;
             max-width: min(1180px, 82vw);
             object-fit: contain;
         }
@@ -220,8 +220,8 @@
             max-width: 720px;
             margin-bottom: 22px;
             color: #fff;
-            font-size: clamp(42px, 4.6vw, 54px);
-            line-height: 1.08;
+            font-size: clamp(46px, 5.1vw, 64px);
+            line-height: 1.05;
             letter-spacing: 0;
             text-shadow: 4px 4px 0 var(--line);
         }
@@ -238,6 +238,10 @@
         .hero h1 .h1-line:first-child,
         .hero h1 .h1-line:last-child {
             color: #fff;
+        }
+
+        .hero h1 .h1-accent {
+            color: var(--green);
         }
 
         .hero-copy {
@@ -330,7 +334,8 @@
             display: grid;
             gap: 18px;
             justify-items: end;
-            align-self: center;
+            align-self: start;
+            padding-top: 88px;
         }
 
         .section {
@@ -1874,7 +1879,7 @@
             }
 
             .brand-logo {
-                height: 36px;
+                height: 54px;
                 max-width: min(100%, 92vw);
             }
 
@@ -1899,6 +1904,10 @@
                 min-height: auto;
                 margin: 20px auto 0;
                 border-radius: 8px;
+            }
+
+            .hero-side {
+                padding-top: 0;
             }
 
             .promise-card {
@@ -1937,8 +1946,8 @@
             }
 
             h1 {
-                font-size: clamp(38px, 10.5vw, 42px);
-                line-height: 1.12;
+                font-size: clamp(40px, 11vw, 50px);
+                line-height: 1.08;
                 text-shadow: 3px 3px 0 var(--line);
             }
 
@@ -2041,7 +2050,7 @@
                         <p class="eyebrow">中小製造業向け スモールスタートDX</p>
                         <h1>
                             <span class="h1-line">現場の「面倒くさい」を</span>
-                            <span class="h1-line">1週間でアプリ化</span>
+                            <span class="h1-line"><span class="h1-accent">1週間</span>でアプリ化</span>
                         </h1>
                         <p class="hero-copy">
                             紙の日報や点検表をExcelへ打ち直す二度手間を、低コストな業務アプリで解決。<br>IT担当者がいない企業様にも、現場目線でわかりやすく支援します。
@@ -2051,7 +2060,7 @@
                             <a class="button secondary" href="#services">サービスを見る</a>
                         </div>
                         <ul class="hero-points" aria-label="サービスの特徴">
-                            <li>パーツ数で調整</li>
+                            <li>1画面 10,000円〜</li>
                             <li>1機能 5,000円〜</li>
                             <li>最短1週間で納品</li>
                             <li>ノーコード高速開発</li>
@@ -2192,17 +2201,13 @@
                 </div>
                 <div class="pricing-intro">
                     <div class="pricing-message">
-                        <h3>初期費用は「画面数 ＋ パーツ数 ＋ 機能」の組み合わせだけ</h3>
-                        <p>業務アプリ工房は、現場のDXを小さく始められるよう、「画面数」「パーツ数」「機能数」に応じた分かりやすい料金体系を採用しています。</p>
+                        <h3>初期費用は「画面数 ＋ 機能」の組み合わせだけ</h3>
+                        <p>業務アプリ工房は、現場のDXを小さく始められるよう、「画面数」と「機能数」に応じた分かりやすい料金体系を採用しています。</p>
                     </div>
                     <div class="price-unit-grid" aria-label="料金単位">
                         <div class="price-unit">
                             <strong>1画面 10,000円〜</strong>
                             <span>例：入力画面、一覧画面、集計画面など</span>
-                        </div>
-                        <div class="price-unit">
-                            <strong>パーツ数で調整</strong>
-                            <span>1画面内に表示・入力できるパーツ数を増やせます</span>
                         </div>
                         <div class="price-unit">
                             <strong>1機能 5,000円〜</strong>
@@ -2269,13 +2274,13 @@
                             <p class="pack-note">既存帳票や独自ルールに合わせたい方向け。</p>
                         </div>
                         <p class="pack-summary">必要な画面数、機能を組み合わせてオリジナルパックを作成します。</p>
-                        <span class="pack-section-label" data-kind="screen">追加できる画面</span>
+                        <span class="pack-section-label is-text-label" data-kind="screen">追加できる画面</span>
                         <ul class="pack-list">
                             <li>既存帳票・Excelに合わせた入力画面</li>
                             <li>管理者向けの集計・検索・確認画面</li>
                             <li>モバイル／PC／レスポンシブ対応</li>
                         </ul>
-                        <span class="pack-section-label" data-kind="function">追加できる機能</span>
+                        <span class="pack-section-label is-text-label" data-kind="function">追加できる機能</span>
                         <ul class="pack-list">
                             <li>写真撮影・添付機能</li>
                             <li>QR読み取り機能</li>
@@ -2284,24 +2289,6 @@
                         </ul>
                     </article>
                 </div>
-                <article class="option-service">
-                    <div class="option-service-icon" aria-hidden="true">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M5 5h14v10H8l-3 3V5z" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 9h6M9 12h4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
-                    </div>
-                    <div>
-                        <h3 class="option-service-title"><span>アプリ作成コンサル 1h</span><strong>￥2000</strong></h3>
-                        <p>どんなアプリを作ればいいかなどのご相談を承ります。</p>
-                    </div>
-                </article>
-                <article class="option-service">
-                    <div class="option-service-icon" aria-hidden="true">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M8 6h8M8 18h8M9 2h6a3 3 0 013 3v14a3 3 0 01-3 3H9a3 3 0 01-3-3V5a3 3 0 013-3z" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 15l4-4M12 15l-4-4M12 15V7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
-                    <div>
-                        <h3>App Store / Google Play公開申請代行</h3>
-                        <p>Google PlayまたはApp Storeへの公開申請を代行します。</p>
-                    </div>
-                </article>
                 <div class="running-cost">
                     <h3>ランニングコストについて</h3>
                     <p>アプリの利用には、別途ノーコードツール <a href="https://click.dev/" target="_blank" rel="noopener">Click</a> のProプラン加入が必要です。Clickの料金・機能の詳細は公式ページをご確認ください。</p>

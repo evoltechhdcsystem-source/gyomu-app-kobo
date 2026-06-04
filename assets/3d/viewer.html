@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+<meta charset="utf-8">
+<title>業務アプリ工房 3D Mascot Preview</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #e9e8e3; overflow: hidden; }
+  #label { position: fixed; left: 16px; top: 14px; font: 14px/1.4 system-ui, sans-serif; color: #202020; }
+</style>
+<div id="label">drag: rotate / wheel: zoom</div>
+<script type="importmap">
+{"imports":{"three":"https://unpkg.com/three@0.164.1/build/three.module.js","three/addons/":"https://unpkg.com/three@0.164.1/examples/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { MTLLoader } from "three/addons/loaders/MTLLoader.js";
+import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xe9e8e3);
+const camera = new THREE.PerspectiveCamera(38, innerWidth / innerHeight, 0.1, 100);
+camera.position.set(0, -5.2, 2.4);
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(devicePixelRatio);
+document.body.appendChild(renderer.domElement);
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0x777777, 2.2));
+const key = new THREE.DirectionalLight(0xffffff, 2.1);
+key.position.set(3, -4, 5);
+scene.add(key);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0, -0.3, 0.12);
+controls.enableDamping = true;
+
+new MTLLoader().setPath("./").load("gyomu-mascot.mtl", (materials) => {
+  materials.preload();
+  new OBJLoader().setMaterials(materials).setPath("./").load("gyomu-mascot.obj", (model) => {
+    model.rotation.x = Math.PI / 2;
+    model.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+    scene.add(model);
+  });
+});
+
+addEventListener("resize", () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+function tick() {
+  controls.update();
+  renderer.render(scene, camera);
+  requestAnimationFrame(tick);
+}
+tick();
+</script>
+</html>
