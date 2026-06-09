@@ -956,25 +956,8 @@
         }
 
         .usage-notes {
-            display: grid;
-            grid-template-columns: minmax(0, 0.92fr) minmax(320px, 1.08fr);
-            gap: 30px;
-            align-items: start;
-        }
-
-        .usage-note-lead {
-            padding: 26px;
-            border-left: 10px solid var(--orange);
-            border-radius: 8px;
-            background: #fff;
-            box-shadow: var(--soft-shadow);
-        }
-
-        .usage-note-lead p {
-            margin-bottom: 0;
-            color: #455a64;
-            font-size: 17px;
-            font-weight: 800;
+            max-width: 920px;
+            margin: 0 auto;
         }
 
         .usage-note-list {
@@ -1996,7 +1979,6 @@
                 padding: 14px;
             }
 
-            .usage-note-lead,
             .usage-note-list li {
                 padding: 18px 16px;
             }
@@ -2526,10 +2508,6 @@
                     <p class="lead">安心してご相談いただくために、事前にご確認ください。</p>
                 </div>
                 <div class="usage-notes">
-                    <div class="usage-note-lead">
-                        <h3>小さく始めて、現場に合わせて育てます。</h3>
-                        <p>業務アプリ工房では、現在の帳票やExcelをもとに必要な機能から開発します。内容によって費用や納期が変わるため、まずは資料や写真を拝見したうえでお見積りします。</p>
-                    </div>
                     <ul class="usage-note-list">
                         <li>
                             <div>
@@ -2657,16 +2635,16 @@
     </footer>
 
     <script>
-        const revealTargets = document.querySelectorAll(".section-head, .intro-box, .card, .sample-panel, .pricing-intro, .price-unit, .option-service, .running-cost, .estimate-cta, .price-pack, .case-card, .promise-card, .faq-group, .faq-item, .usage-note-lead, .usage-note-list li, .contact-note, form");
+        const revealTargets = document.querySelectorAll(".section-head, .intro-box, .card, .sample-panel, .pricing-intro, .price-unit, .option-service, .running-cost, .estimate-cta, .price-pack, .case-card, .promise-card, .faq-group, .faq-item, .usage-note-list li, .contact-note, form");
 
         revealTargets.forEach((element) => {
             const siblings = Array.from(element.parentElement?.children || []);
-            const revealIndex = siblings.filter((item) => item.matches?.(".section-head, .intro-box, .card, .sample-panel, .pricing-intro, .price-unit, .option-service, .running-cost, .estimate-cta, .price-pack, .case-card, .promise-card, .faq-group, .faq-item, .usage-note-lead, .usage-note-list li, .contact-note, form")).indexOf(element);
+            const revealIndex = siblings.filter((item) => item.matches?.(".section-head, .intro-box, .card, .sample-panel, .pricing-intro, .price-unit, .option-service, .running-cost, .estimate-cta, .price-pack, .case-card, .promise-card, .faq-group, .faq-item, .usage-note-list li, .contact-note, form")).indexOf(element);
             const delay = Math.max(0, revealIndex) * 90;
 
             element.style.setProperty("--reveal-delay", `${Math.min(delay, 360)}ms`);
 
-            if (element.classList.contains("section-head") || element.classList.contains("pricing-intro") || element.classList.contains("usage-note-lead") || element.classList.contains("contact-note")) {
+            if (element.classList.contains("section-head") || element.classList.contains("pricing-intro") || element.classList.contains("contact-note")) {
                 element.classList.add("from-left");
             }
 
