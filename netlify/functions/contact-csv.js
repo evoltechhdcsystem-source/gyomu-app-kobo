@@ -14,13 +14,14 @@ exports.handler = async (event) => {
   }
 
   try {
-    const csv = await loadCsv();
+    const csv = ensureUtf8Bom(await loadCsv());
 
     return {
       statusCode: 200,
       headers: {
-        "Content-Type": "text/csv; charset=utf-8",
+        "Content-Type": "application/vnd.ms-excel; charset=utf-8",
         "Content-Disposition": `attachment; filename="${CSV_FILE_NAME}"`,
+        "Cache-Control": "no-store",
       },
       body: csv,
     };
@@ -63,6 +64,11 @@ function isServerlessRuntime() {
 
 function getBlobStore(name) {
   return getStore(name);
+}
+
+function ensureUtf8Bom(csv) {
+  if (!csv) return "\ufeff";
+  return csv.charCodeAt(0) === 0xfeff ? csv : `\ufeff${csv}`;
 }
 
 function textResponse(statusCode, body) {
