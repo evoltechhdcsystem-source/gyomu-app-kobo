@@ -2,7 +2,7 @@ const Busboy = require("busboy");
 const fs = require("fs/promises");
 const path = require("path");
 const os = require("os");
-const { getStore } = require("@netlify/blobs");
+const { connectLambda, getStore } = require("@netlify/blobs");
 
 const CSV_FILE_NAME = "contact-submissions.csv";
 const UPLOAD_STORE_NAME = "private-contact-uploads";
@@ -22,6 +22,8 @@ const CSV_HEADERS = [
 ];
 
 exports.handler = async (event) => {
+  connectLambda(event);
+
   if (event.httpMethod !== "POST") {
     return jsonResponse(405, { ok: false, message: "Method not allowed" });
   }
@@ -143,7 +145,7 @@ function validateSubmission(fields) {
 
 async function appendCsvRow(row) {
   const line = `${CSV_HEADERS.map((header) => csvCell(row[header])).join(",")}\n`;
-  const csvPath = process.env.NETLIFY ? "" : process.env.CONTACT_CSV_PATH;
+  const csvPath = isServerlessRuntime() ? "" : process.env.CONTACT_CSV_PATH;
 
   if (csvPath) {
     await fs.mkdir(path.dirname(csvPath), { recursive: true });
@@ -173,7 +175,7 @@ async function appendCsvRow(row) {
 async function saveUploadedFiles(files, receivedAt, submissionId) {
   if (!files.length) return [];
 
-  const uploadDir = process.env.NETLIFY ? "" : process.env.CONTACT_UPLOAD_DIR || defaultLocalUploadDir();
+  const uploadDir = isServerlessRuntime() ? "" : process.env.CONTACT_UPLOAD_DIR || defaultLocalUploadDir();
 
   if (uploadDir) {
     await fs.mkdir(uploadDir, { recursive: true });
@@ -216,7 +218,7 @@ async function saveUploadedFiles(files, receivedAt, submissionId) {
 
 async function saveSubmissionDetail(detail) {
   const json = JSON.stringify(detail, null, 2);
-  const detailDir = process.env.NETLIFY ? "" : process.env.CONTACT_DETAIL_DIR || defaultLocalDetailDir();
+  const detailDir = isServerlessRuntime() ? "" : process.env.CONTACT_DETAIL_DIR || defaultLocalDetailDir();
 
   if (detailDir) {
     await fs.mkdir(detailDir, { recursive: true });
@@ -231,15 +233,23 @@ async function saveSubmissionDetail(detail) {
 }
 
 function defaultLocalUploadDir() {
-  if (process.env.NETLIFY) return "";
+  if (isServerlessRuntime()) return "";
   if (process.env.CONTACT_CSV_PATH) return path.join(path.dirname(process.env.CONTACT_CSV_PATH), "uploads");
   return path.join(os.tmpdir(), "contact-uploads");
 }
 
 function defaultLocalDetailDir() {
-  if (process.env.NETLIFY) return "";
+  if (isServerlessRuntime()) return "";
   if (process.env.CONTACT_CSV_PATH) return path.join(path.dirname(process.env.CONTACT_CSV_PATH), "details");
   return path.join(os.tmpdir(), "contact-details");
+}
+
+function isServerlessRuntime() {
+  return Boolean(
+    process.env.NETLIFY ||
+    process.env.AWS_LAMBDA_FUNCTION_NAME ||
+    process.env.LAMBDA_TASK_ROOT
+  );
 }
 
 function getBlobStore(name) {
@@ -333,7 +343,7 @@ function buildSubmissionId(receivedAt) {
 }
 
 function buildInquiryUrl(event, submissionId) {
-  const token = process.env.CONTACT_VIEW_TOKEN || (process.env.NETLIFY ? "" : "local-dev");
+  const token = process.env.CONTACT_VIEW_TOKEN || (isServerlessRuntime() ? "" : "local-dev");
   if (!token) return "";
 
   const host = event.headers["x-forwarded-host"] || event.headers.host;

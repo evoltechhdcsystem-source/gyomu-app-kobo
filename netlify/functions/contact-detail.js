@@ -1,13 +1,15 @@
 const fs = require("fs/promises");
 const path = require("path");
 const os = require("os");
-const { getStore } = require("@netlify/blobs");
+const { connectLambda, getStore } = require("@netlify/blobs");
 
 const SUBMISSION_STORE_NAME = "private-contact-details";
 const CSV_FILE_NAME = "contact-submissions.csv";
 const CSV_STORE_NAME = "private-contact-submissions";
 
 exports.handler = async (event) => {
+  connectLambda(event);
+
   if (!isAuthorized(event)) {
     return htmlResponse(403, "<h1>403 Forbidden</h1>");
   }
@@ -31,7 +33,7 @@ exports.handler = async (event) => {
 };
 
 async function loadDetail(id) {
-  const detailDir = process.env.NETLIFY ? "" : process.env.CONTACT_DETAIL_DIR || defaultLocalDetailDir();
+  const detailDir = isServerlessRuntime() ? "" : process.env.CONTACT_DETAIL_DIR || defaultLocalDetailDir();
 
   if (detailDir) {
     let json;
@@ -76,7 +78,7 @@ async function loadDetailFromCsv(id) {
 }
 
 async function loadCsvText() {
-  const csvPath = process.env.NETLIFY ? "" : process.env.CONTACT_CSV_PATH || defaultLocalCsvPath();
+  const csvPath = isServerlessRuntime() ? "" : process.env.CONTACT_CSV_PATH || defaultLocalCsvPath();
 
   if (csvPath) {
     try {
@@ -147,20 +149,28 @@ function renderDetailPage(detail, token) {
 }
 
 function isAuthorized(event) {
-  const expected = process.env.CONTACT_VIEW_TOKEN || (process.env.NETLIFY ? "" : "local-dev");
+  const expected = process.env.CONTACT_VIEW_TOKEN || (isServerlessRuntime() ? "" : "local-dev");
   const actual = event.queryStringParameters?.token || "";
   return Boolean(expected) && actual === expected;
 }
 
 function defaultLocalDetailDir() {
-  if (process.env.NETLIFY) return "";
+  if (isServerlessRuntime()) return "";
   if (process.env.CONTACT_CSV_PATH) return path.join(path.dirname(process.env.CONTACT_CSV_PATH), "details");
   return path.join(os.tmpdir(), "contact-details");
 }
 
 function defaultLocalCsvPath() {
-  if (process.env.NETLIFY) return "";
+  if (isServerlessRuntime()) return "";
   return path.join(os.tmpdir(), CSV_FILE_NAME);
+}
+
+function isServerlessRuntime() {
+  return Boolean(
+    process.env.NETLIFY ||
+    process.env.AWS_LAMBDA_FUNCTION_NAME ||
+    process.env.LAMBDA_TASK_ROOT
+  );
 }
 
 function getBlobStore(name) {
