@@ -141,7 +141,7 @@ function isServerlessRuntime() {
 }
 
 function getBlobStore(name) {
-  return getStore({ name, consistency: "strong" });
+  return getStore(name);
 }
 
 function sanitizeId(value) {
