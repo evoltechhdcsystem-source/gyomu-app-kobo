@@ -36,8 +36,8 @@ async function loadDetail(id) {
     return JSON.parse(json);
   }
 
-  const store = getStore(SUBMISSION_STORE_NAME);
-  const json = await store.get(`${id}.json`, { type: "text", consistency: "strong" });
+  const store = getBlobStore(SUBMISSION_STORE_NAME);
+  const json = await store.get(`${id}.json`, { type: "text" });
   return json ? JSON.parse(json) : null;
 }
 
@@ -106,6 +106,10 @@ function defaultLocalDetailDir() {
   if (process.env.NETLIFY) return "";
   if (process.env.CONTACT_CSV_PATH) return path.join(path.dirname(process.env.CONTACT_CSV_PATH), "details");
   return path.join(os.tmpdir(), "contact-details");
+}
+
+function getBlobStore(name) {
+  return getStore({ name, consistency: "strong" });
 }
 
 function sanitizeId(value) {

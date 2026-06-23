@@ -35,8 +35,8 @@ async function loadCsv() {
     return fs.readFile(csvPath, "utf8");
   }
 
-  const store = getStore(CSV_STORE_NAME);
-  const csv = await store.get(CSV_FILE_NAME, { type: "text", consistency: "strong" });
+  const store = getBlobStore(CSV_STORE_NAME);
+  const csv = await store.get(CSV_FILE_NAME, { type: "text" });
   return csv || "";
 }
 
@@ -49,6 +49,10 @@ function isAuthorized(event) {
 function defaultLocalCsvPath() {
   if (process.env.NETLIFY) return "";
   return path.join(os.tmpdir(), CSV_FILE_NAME);
+}
+
+function getBlobStore(name) {
+  return getStore({ name, consistency: "strong" });
 }
 
 function textResponse(statusCode, body) {

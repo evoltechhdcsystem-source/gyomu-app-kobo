@@ -153,7 +153,7 @@ async function appendCsvRow(row) {
   }
 
   try {
-    const store = getStore("private-contact-submissions");
+    const store = getBlobStore("private-contact-submissions");
     const current = await store.get(CSV_FILE_NAME, { type: "text" });
     await store.set(CSV_FILE_NAME, `${normalizeCsvText(current)}${line}`, {
       metadata: { contentType: "text/csv; charset=utf-8" },
@@ -187,7 +187,7 @@ async function saveUploadedFiles(files, receivedAt, submissionId) {
   }
 
   try {
-    const store = getStore(UPLOAD_STORE_NAME);
+    const store = getBlobStore(UPLOAD_STORE_NAME);
     return Promise.all(files.map(async (file, index) => {
       const key = `${submissionId}/${buildStoredFileName(file.fileName, receivedAt, index)}`;
       await store.set(key, file.buffer, {
@@ -224,7 +224,7 @@ async function saveSubmissionDetail(detail) {
     return;
   }
 
-  const store = getStore(SUBMISSION_STORE_NAME);
+  const store = getBlobStore(SUBMISSION_STORE_NAME);
   await store.set(`${detail.submission_id}.json`, json, {
     metadata: { contentType: "application/json; charset=utf-8" },
   });
@@ -240,6 +240,10 @@ function defaultLocalDetailDir() {
   if (process.env.NETLIFY) return "";
   if (process.env.CONTACT_CSV_PATH) return path.join(path.dirname(process.env.CONTACT_CSV_PATH), "details");
   return path.join(os.tmpdir(), "contact-details");
+}
+
+function getBlobStore(name) {
+  return getStore({ name, consistency: "strong" });
 }
 
 async function notifyLineWorks(row) {
