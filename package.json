@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "dev": "netlify dev",
+    "serve": "node scripts/static-server.js . 4177"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^8.2.0",
+    "busboy": "^1.6.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.38.1"
+  }
+}
