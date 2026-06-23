@@ -143,7 +143,7 @@ function validateSubmission(fields) {
 
 async function appendCsvRow(row) {
   const line = `${CSV_HEADERS.map((header) => csvCell(row[header])).join(",")}\n`;
-  const csvPath = process.env.CONTACT_CSV_PATH;
+  const csvPath = process.env.NETLIFY ? "" : process.env.CONTACT_CSV_PATH;
 
   if (csvPath) {
     await fs.mkdir(path.dirname(csvPath), { recursive: true });
@@ -173,7 +173,7 @@ async function appendCsvRow(row) {
 async function saveUploadedFiles(files, receivedAt, submissionId) {
   if (!files.length) return [];
 
-  const uploadDir = process.env.CONTACT_UPLOAD_DIR || defaultLocalUploadDir();
+  const uploadDir = process.env.NETLIFY ? "" : process.env.CONTACT_UPLOAD_DIR || defaultLocalUploadDir();
 
   if (uploadDir) {
     await fs.mkdir(uploadDir, { recursive: true });
@@ -216,7 +216,7 @@ async function saveUploadedFiles(files, receivedAt, submissionId) {
 
 async function saveSubmissionDetail(detail) {
   const json = JSON.stringify(detail, null, 2);
-  const detailDir = process.env.CONTACT_DETAIL_DIR || defaultLocalDetailDir();
+  const detailDir = process.env.NETLIFY ? "" : process.env.CONTACT_DETAIL_DIR || defaultLocalDetailDir();
 
   if (detailDir) {
     await fs.mkdir(detailDir, { recursive: true });

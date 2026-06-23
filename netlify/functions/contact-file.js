@@ -45,15 +45,27 @@ exports.handler = async (event) => {
 };
 
 async function loadDetail(id) {
-  const detailDir = process.env.CONTACT_DETAIL_DIR || defaultLocalDetailDir();
+  const detailDir = process.env.NETLIFY ? "" : process.env.CONTACT_DETAIL_DIR || defaultLocalDetailDir();
 
   if (detailDir) {
-    const json = await fs.readFile(path.join(detailDir, `${id}.json`), "utf8");
+    let json;
+    try {
+      json = await fs.readFile(path.join(detailDir, `${id}.json`), "utf8");
+    } catch (error) {
+      if (error.code === "ENOENT") return null;
+      throw error;
+    }
     return JSON.parse(json);
   }
 
   const store = getBlobStore(SUBMISSION_STORE_NAME);
-  const json = await store.get(`${id}.json`, { type: "text" });
+  let json;
+  try {
+    json = await store.get(`${id}.json`, { type: "text" });
+  } catch (error) {
+    if (error.status === 404 || error.statusCode === 404) return null;
+    throw error;
+  }
   return json ? JSON.parse(json) : null;
 }
 

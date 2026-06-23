@@ -29,7 +29,7 @@ exports.handler = async (event) => {
 };
 
 async function loadCsv() {
-  const csvPath = process.env.CONTACT_CSV_PATH || defaultLocalCsvPath();
+  const csvPath = process.env.NETLIFY ? "" : process.env.CONTACT_CSV_PATH || defaultLocalCsvPath();
 
   if (csvPath) {
     return fs.readFile(csvPath, "utf8");
