@@ -1,2 +1,4 @@
 tmp/
 *.zip
+node_modules/
+.netlify/
