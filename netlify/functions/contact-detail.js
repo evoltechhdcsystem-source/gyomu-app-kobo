@@ -4,6 +4,8 @@ const os = require("os");
 const { getStore } = require("@netlify/blobs");
 
 const SUBMISSION_STORE_NAME = "private-contact-details";
+const CSV_FILE_NAME = "contact-submissions.csv";
+const CSV_STORE_NAME = "private-contact-submissions";
 
 exports.handler = async (event) => {
   if (!isAuthorized(event)) {
@@ -50,7 +52,43 @@ async function loadDetail(id) {
     if (error.status === 404 || error.statusCode === 404) return null;
     throw error;
   }
-  return json ? JSON.parse(json) : null;
+  if (json) return JSON.parse(json);
+  return loadDetailFromCsv(id);
+}
+
+async function loadDetailFromCsv(id) {
+  const csv = await loadCsvText();
+  if (!csv) return null;
+
+  const rows = parseCsv(csv);
+  const row = rows.find((item) => item.submission_id === id);
+  if (!row) return null;
+
+  return {
+    received_at: row.received_at || "",
+    submission_id: row.submission_id || id,
+    name: row.name || "",
+    company: row.company || "",
+    email: row.email || "",
+    message: row.message || "",
+    files: parseAttachments(row.attachments || ""),
+  };
+}
+
+async function loadCsvText() {
+  const csvPath = process.env.NETLIFY ? "" : process.env.CONTACT_CSV_PATH || defaultLocalCsvPath();
+
+  if (csvPath) {
+    try {
+      return await fs.readFile(csvPath, "utf8");
+    } catch (error) {
+      if (error.code === "ENOENT") return "";
+      throw error;
+    }
+  }
+
+  const store = getBlobStore(CSV_STORE_NAME);
+  return await store.get(CSV_FILE_NAME, { type: "text" }) || "";
 }
 
 function renderDetailPage(detail, token) {
@@ -120,12 +158,89 @@ function defaultLocalDetailDir() {
   return path.join(os.tmpdir(), "contact-details");
 }
 
+function defaultLocalCsvPath() {
+  if (process.env.NETLIFY) return "";
+  return path.join(os.tmpdir(), CSV_FILE_NAME);
+}
+
 function getBlobStore(name) {
   return getStore({ name, consistency: "strong" });
 }
 
 function sanitizeId(value) {
   return String(value).replace(/[^a-zA-Z0-9_.-]/g, "");
+}
+
+function parseCsv(csv) {
+  const text = csv.charCodeAt(0) === 0xfeff ? csv.slice(1) : csv;
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    const next = text[i + 1];
+
+    if (inQuotes) {
+      if (char === '"' && next === '"') {
+        cell += '"';
+        i++;
+      } else if (char === '"') {
+        inQuotes = false;
+      } else {
+        cell += char;
+      }
+      continue;
+    }
+
+    if (char === '"') {
+      inQuotes = true;
+    } else if (char === ",") {
+      row.push(cell);
+      cell = "";
+    } else if (char === "\n") {
+      row.push(cell.replace(/\r$/, ""));
+      rows.push(row);
+      row = [];
+      cell = "";
+    } else {
+      cell += char;
+    }
+  }
+
+  if (cell || row.length) {
+    row.push(cell);
+    rows.push(row);
+  }
+
+  const headers = rows.shift() || [];
+  return rows
+    .filter((item) => item.length)
+    .map((item) => Object.fromEntries(headers.map((header, index) => [header, item[index] || ""])));
+}
+
+function parseAttachments(value) {
+  if (!value) return [];
+
+  return value.split(" / ").map((attachment) => {
+    const match = attachment.match(/^(.*) \((.*), (\d+) bytes, (.*)\)$/);
+    if (!match) {
+      return { fileName: attachment, size: 0, mimeType: "", savedPath: "", storageType: "" };
+    }
+
+    const savedPath = match[4];
+    return {
+      fileName: match[1],
+      mimeType: match[2],
+      size: Number(match[3] || 0),
+      savedPath,
+      blobKey: savedPath.startsWith("netlify-blob://")
+        ? savedPath.replace(/^netlify-blob:\/\/private-contact-uploads\//, "")
+        : "",
+      storageType: savedPath.startsWith("netlify-blob://") ? "blob" : "file",
+    };
+  });
 }
 
 function formatBytes(value) {
