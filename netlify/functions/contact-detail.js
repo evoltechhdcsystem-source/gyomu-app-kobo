@@ -240,6 +240,7 @@ function parseAttachments(value) {
     }
 
     const savedPath = match[4];
+    const s3Path = parseS3SavedPath(savedPath);
     return {
       fileName: match[1],
       mimeType: match[2],
@@ -248,9 +249,18 @@ function parseAttachments(value) {
       blobKey: savedPath.startsWith("netlify-blob://")
         ? savedPath.replace(/^netlify-blob:\/\/private-contact-uploads\//, "")
         : "",
-      storageType: savedPath.startsWith("netlify-blob://") ? "blob" : "file",
+      s3Bucket: s3Path.bucket,
+      s3Key: s3Path.key,
+      storageType: savedPath.startsWith("s3://")
+        ? "s3"
+        : savedPath.startsWith("netlify-blob://") ? "blob" : "file",
     };
   });
+}
+
+function parseS3SavedPath(savedPath) {
+  const match = String(savedPath || "").match(/^s3:\/\/([^/]+)\/(.+)$/);
+  return match ? { bucket: match[1], key: match[2] } : { bucket: "", key: "" };
 }
 
 function formatBytes(value) {

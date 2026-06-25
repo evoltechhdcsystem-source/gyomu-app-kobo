@@ -3,6 +3,7 @@ const fs = require("fs/promises");
 const path = require("path");
 const os = require("os");
 const { connectLambda, getStore } = require("@netlify/blobs");
+const { PutObjectCommand, S3Client } = require("@aws-sdk/client-s3");
 
 const CSV_FILE_NAME = "contact-submissions.csv";
 const UPLOAD_STORE_NAME = "private-contact-uploads";
@@ -175,6 +176,31 @@ async function appendCsvRow(row) {
 async function saveUploadedFiles(files, receivedAt, submissionId) {
   if (!files.length) return [];
 
+  if (hasS3UploadConfig()) {
+    const s3 = getS3Client();
+    const bucket = process.env.CONTACT_UPLOAD_BUCKET;
+    const prefix = normalizeS3Prefix(process.env.CONTACT_UPLOAD_PREFIX || "contact-uploads");
+    const receivedDate = receivedAt.slice(0, 10).replace(/-/g, "/");
+
+    return Promise.all(files.map(async (file, index) => {
+      const fileName = buildStoredFileName(file.fileName, receivedAt, index);
+      const key = [prefix, receivedDate, submissionId, fileName].filter(Boolean).join("/");
+      await s3.send(new PutObjectCommand({
+        Bucket: bucket,
+        Key: key,
+        Body: file.buffer,
+        ContentType: file.mimeType || "application/octet-stream",
+      }));
+      return {
+        ...file,
+        savedPath: `s3://${bucket}/${key}`,
+        storageType: "s3",
+        s3Bucket: bucket,
+        s3Key: key,
+      };
+    }));
+  }
+
   const uploadDir = isServerlessRuntime() ? "" : process.env.CONTACT_UPLOAD_DIR || defaultLocalUploadDir();
 
   if (uploadDir) {
@@ -256,6 +282,29 @@ function getBlobStore(name) {
   return getStore(name);
 }
 
+function hasS3UploadConfig() {
+  return Boolean(process.env.CONTACT_UPLOAD_BUCKET);
+}
+
+function getS3Client() {
+  const region = process.env.CONTACT_AWS_REGION || process.env.AWS_REGION || "ap-northeast-1";
+  const accessKeyId = process.env.CONTACT_AWS_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.CONTACT_AWS_SECRET_ACCESS_KEY;
+  const config = { region };
+
+  if (accessKeyId && secretAccessKey) {
+    config.credentials = { accessKeyId, secretAccessKey };
+  }
+
+  return new S3Client(config);
+}
+
+function normalizeS3Prefix(value) {
+  return String(value || "")
+    .replace(/^\/+|\/+$/g, "")
+    .replace(/\/{2,}/g, "/");
+}
+
 async function notifyLineWorks(row) {
   const webhookUrl = process.env.LINEWORKS_WEBHOOK_URL;
 
@@ -304,6 +353,8 @@ function fileForJson(file) {
     size: file.size,
     savedPath: file.savedPath,
     blobKey: file.blobKey || "",
+    s3Bucket: file.s3Bucket || "",
+    s3Key: file.s3Key || "",
     storageType: file.storageType,
   };
 }

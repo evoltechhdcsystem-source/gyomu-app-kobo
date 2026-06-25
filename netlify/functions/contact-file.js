@@ -2,6 +2,7 @@ const fs = require("fs/promises");
 const path = require("path");
 const os = require("os");
 const { connectLambda, getStore } = require("@netlify/blobs");
+const { GetObjectCommand, S3Client } = require("@aws-sdk/client-s3");
 
 const SUBMISSION_STORE_NAME = "private-contact-details";
 const UPLOAD_STORE_NAME = "private-contact-uploads";
@@ -109,6 +110,16 @@ async function loadFileBytes(file) {
     return fs.readFile(file.savedPath);
   }
 
+  if (file.storageType === "s3") {
+    const s3 = getS3Client();
+    const bucket = file.s3Bucket || process.env.CONTACT_UPLOAD_BUCKET;
+    const key = file.s3Key || parseS3SavedPath(file.savedPath).key;
+    if (!bucket || !key) throw new Error("S3 file location is missing");
+
+    const response = await s3.send(new GetObjectCommand({ Bucket: bucket, Key: key }));
+    return streamToBuffer(response.Body);
+  }
+
   const store = getBlobStore(UPLOAD_STORE_NAME);
   const data = await store.get(file.blobKey, { type: "arrayBuffer" });
   if (!data) throw new Error("Blob not found");
@@ -142,6 +153,38 @@ function isServerlessRuntime() {
 
 function getBlobStore(name) {
   return getStore(name);
+}
+
+function getS3Client() {
+  const region = process.env.CONTACT_AWS_REGION || process.env.AWS_REGION || "ap-northeast-1";
+  const accessKeyId = process.env.CONTACT_AWS_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.CONTACT_AWS_SECRET_ACCESS_KEY;
+  const config = { region };
+
+  if (accessKeyId && secretAccessKey) {
+    config.credentials = { accessKeyId, secretAccessKey };
+  }
+
+  return new S3Client(config);
+}
+
+async function streamToBuffer(stream) {
+  if (Buffer.isBuffer(stream)) return stream;
+  if (stream instanceof Uint8Array) return Buffer.from(stream);
+  if (typeof stream?.transformToByteArray === "function") {
+    return Buffer.from(await stream.transformToByteArray());
+  }
+
+  const chunks = [];
+  for await (const chunk of stream) {
+    chunks.push(Buffer.from(chunk));
+  }
+  return Buffer.concat(chunks);
+}
+
+function parseS3SavedPath(savedPath) {
+  const match = String(savedPath || "").match(/^s3:\/\/([^/]+)\/(.+)$/);
+  return match ? { bucket: match[1], key: match[2] } : { bucket: "", key: "" };
 }
 
 function sanitizeId(value) {
@@ -207,6 +250,7 @@ function parseAttachments(value) {
     }
 
     const savedPath = match[4];
+    const s3Path = parseS3SavedPath(savedPath);
     return {
       fileName: match[1],
       mimeType: match[2],
@@ -215,7 +259,11 @@ function parseAttachments(value) {
       blobKey: savedPath.startsWith("netlify-blob://")
         ? savedPath.replace(/^netlify-blob:\/\/private-contact-uploads\//, "")
         : "",
-      storageType: savedPath.startsWith("netlify-blob://") ? "blob" : "file",
+      s3Bucket: s3Path.bucket,
+      s3Key: s3Path.key,
+      storageType: savedPath.startsWith("s3://")
+        ? "s3"
+        : savedPath.startsWith("netlify-blob://") ? "blob" : "file",
     };
   });
 }

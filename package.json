@@ -4,6 +4,7 @@
     "serve": "node scripts/static-server.js . 4177"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.716.0",
     "@netlify/blobs": "^8.2.0",
     "busboy": "^1.6.0"
   },
