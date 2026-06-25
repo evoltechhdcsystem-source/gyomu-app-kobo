@@ -45,6 +45,12 @@ exports.handler = async (event) => {
     const submissionId = buildSubmissionId(receivedAt);
     stage = "saveUploadedFiles";
     const savedFiles = await saveUploadedFiles(submission.files, receivedAt, submissionId);
+    console.info("contact upload storage completed", {
+      submissionId,
+      fileCount: savedFiles.length,
+      storageTypes: [...new Set(savedFiles.map((file) => file.storageType || "none"))],
+      hasS3Bucket: Boolean(process.env.CONTACT_UPLOAD_BUCKET),
+    });
     const row = {
       received_at: receivedAt,
       submission_id: submissionId,
@@ -67,6 +73,7 @@ exports.handler = async (event) => {
     stage = "notifyLineWorks";
     try {
       await notifyLineWorks(row);
+      console.info("contact notification completed", { submissionId });
     } catch (error) {
       console.error("contact notification failed", {
         submissionId,
