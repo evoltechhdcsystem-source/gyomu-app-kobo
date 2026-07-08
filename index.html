@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>業務アプリ工房 | DIYな業務アプリ開発</title>
-    <link rel="icon" type="image/png" href="assets/favicon.png">
-    <link rel="apple-touch-icon" href="assets/favicon.png">
+    <link rel="icon" type="image/png" href="assets/favicon.png?v=20260701">
+    <link rel="apple-touch-icon" href="assets/favicon.png?v=20260701">
     <style>
         :root {
             --orange: #ff5a00;
@@ -76,7 +76,8 @@
 
         .brand-logo {
             width: auto;
-            height: 58px;
+            height: auto;
+            max-height: 58px;
             max-width: min(1180px, 82vw);
             object-fit: contain;
         }
@@ -625,6 +626,40 @@
             margin-top: 20px;
         }
 
+        .sample-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sample-action-note {
+            color: #455a64;
+            font-size: 12px;
+            font-weight: 900;
+            line-height: 1.4;
+        }
+
+        .sample-button.has-note {
+            min-height: 58px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+
+        .sample-button-copy {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            line-height: 1.2;
+        }
+
+        .sample-button-note {
+            font-size: 12px;
+            font-weight: 900;
+            opacity: 0.78;
+        }
+
         .promise-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -1007,6 +1042,13 @@
             font-size: 14px;
             font-weight: 800;
             line-height: 1.75;
+        }
+
+        .text-link {
+            color: var(--green);
+            font-weight: 900;
+            text-decoration: underline;
+            text-underline-offset: 3px;
         }
 
         .sample-button {
@@ -1862,7 +1904,7 @@
             }
 
             .brand-logo {
-                height: 54px;
+                max-height: 54px;
                 max-width: min(100%, 92vw);
             }
 
@@ -2009,7 +2051,7 @@
     <header class="site-header">
         <div class="container header-inner">
             <a class="brand" href="#top" aria-label="業務アプリ工房のトップへ">
-                <img class="brand-logo" src="assets/logo-gyomu-app-kobo-600.png" alt="業務アプリ工房">
+                <img class="brand-logo" src="assets/logo.png" alt="業務アプリ工房">
             </a>
             <nav class="nav" aria-label="主要ナビゲーション">
                 <a href="#concept">コンセプト</a>
@@ -2045,7 +2087,7 @@
                             <li>1画面 10,000円〜</li>
                             <li>1機能 5,000円〜</li>
                             <li>最短1週間で納品</li>
-                            <li>ノーコード高速開発</li>
+                            <li>カスタム設計</li>
                             <li>小さく始められる</li>
                             <li>IT担当者不在でもOK</li>
                         </ul>
@@ -2122,7 +2164,7 @@
                                 <li>スマートフォン、タブレット、PC対応</li>
                             </ul>
                             <div class="card-actions">
-                                <a class="sample-button" href="#" data-sample-app="change4m">サンプルアプリを開く</a>
+                                <a class="sample-button" href="#" data-sample-app="change4m">4Mアプリを開く</a>
                             </div>
                         </div>
                     </article>
@@ -2144,8 +2186,22 @@
                                 <li>対応状況を一覧で確認</li>
                             </ul>
                             <div class="card-actions">
-                                <a class="sample-button" href="#" data-sample-app="failureReportEntry">登録アプリを開く</a>
-                                <a class="sample-button" href="#" data-sample-app="failureReportCheck">確認アプリを開く</a>
+                                <div class="sample-action">
+                                    <a class="sample-button has-note" href="#" data-sample-app="failureReportEntry">
+                                        <span class="sample-button-copy">
+                                            <span>登録アプリを開く</span>
+                                            <span class="sample-button-note">スマートフォン用</span>
+                                        </span>
+                                    </a>
+                                </div>
+                                <div class="sample-action">
+                                    <a class="sample-button has-note" href="#" data-sample-app="failureReportCheck">
+                                        <span class="sample-button-copy">
+                                            <span>確認アプリを開く</span>
+                                            <span class="sample-button-note">パソコン用</span>
+                                        </span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </article>
@@ -2158,7 +2214,7 @@
                                 <div class="sample-title-icon" aria-hidden="true">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 4h12v16H6V4zM9 8h6M9 12h6M9 16h3" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
                                 </div>
-                                <h3>汎用業務アプリ（内容未定）</h3>
+                                <h3>汎用業務アプリ<br>（coming soon）</h3>
                             </div>
                             <p>申請、受付、チェックなど、現場特化ではない業務向けサンプルも準備予定です。</p>
                             <ul class="service-list">
@@ -2167,7 +2223,7 @@
                                 <li>業種を問わないサンプル</li>
                             </ul>
                             <div class="card-actions">
-                                <a class="sample-button" href="#" data-sample-app="general">サンプルアプリを開く</a>
+                                <a class="sample-button" href="#" data-sample-app="general" data-coming-soon="true">coming soon</a>
                             </div>
                         </div>
                     </article>
@@ -2273,7 +2329,7 @@
                 </div>
                 <div class="running-cost">
                     <h3>ランニングコストについて</h3>
-                    <p>アプリの利用には、別途ノーコードツール <a href="https://click.dev/" target="_blank" rel="noopener">Click</a> のProプラン加入が必要です。Clickの料金・機能の詳細は公式ページをご確認ください。</p>
+                    <p>アプリの利用には、別途ノーコードツール <a href="https://click.dev/" target="_blank" rel="noopener">Click</a> の加入が必要です。Clickの料金・機能の詳細は公式ページをご確認ください。</p>
                 </div>
                 <div class="estimate-cta">
                     <div>
@@ -2467,11 +2523,11 @@
                             <div class="faq-answer"><span class="faq-mark">A</span><p>最新のノーコードツール「Click」を活用し、プログラミング工数を大幅に削減しているためです。また、オーダーメイドでも必要な画面・機能に絞って開発するため、低コスト・短納期を実現しています。</p></div>
                         </details>
                         <details class="faq-item">
-                            <summary class="faq-question"><span class="faq-mark">Q</span><span>月額費用としてClick Proプランの加入が必要なのはなぜですか？</span></summary>
-                            <div class="faq-answer"><span class="faq-mark">A</span><p>アプリに入力した日報や点検データなどを安全にクラウド上に保管し、現場のスマホからいつでも快適にアクセスするため、Click側の利用料金が必要です。自社サーバーを構築・維持するより合理的に使えます。</p></div>
+                            <summary class="faq-question"><span class="faq-mark">Q</span><span>月額費用としてClick の加入が必要なのはなぜですか？</span></summary>
+                            <div class="faq-answer"><span class="faq-mark">A</span><p>アプリに入力した日報や点検データなどを安全にクラウド上に保管し、現場のスマホからいつでも快適にアクセスするため、<a class="text-link" href="https://click.dev/" target="_blank" rel="noopener">Click</a>側の利用料金が必要です。自社サーバーを構築・維持するより合理的に使えます。</p></div>
                         </details>
                         <details class="faq-item">
-                            <summary class="faq-question"><span class="faq-mark">Q</span><span>Click Proプランの契約手続きのやり方が分かりません。</span></summary>
+                            <summary class="faq-question"><span class="faq-mark">Q</span><span>Click の契約手続きのやり方が分かりません。</span></summary>
                             <div class="faq-answer"><span class="faq-mark">A</span><p>ご安心ください。アカウント作成からプラン契約手続きまで、弊社スタッフが丁寧にサポートします。</p></div>
                         </details>
                     </div>
@@ -2490,11 +2546,11 @@
                         <h3>開発・機能について</h3>
                         <details class="faq-item">
                             <summary class="faq-question"><span class="faq-mark">Q</span><span>今、現場で使っている紙の帳票やExcelと同じ見た目で作れますか？</span></summary>
-                            <div class="faq-answer"><span class="faq-mark">A</span><p>可能です。現場の方が新しいシステムに戸惑わないよう、現在お使いの帳票の項目やレイアウトに極力合わせたカスタム設計を行います。</p></div>
+                            <div class="faq-answer"><span class="faq-mark">A</span><p>現場の方が新しいシステムに戸惑わないよう、現在お使いの帳票の項目やレイアウトに極力合わせたカスタム設計を行います。</p></div>
                         </details>
                         <details class="faq-item">
                             <summary class="faq-question"><span class="faq-mark">Q</span><span>手入力以外の入力方法はありますか？</span></summary>
-                            <div class="faq-answer"><span class="faq-mark">A</span><p>対応可能です。スマホのカメラを使ったQRコード・バーコード読み取りや、Bluetooth対応の測定機器との連携など、現場の作業を楽にする機能を追加できます。</p></div>
+                            <div class="faq-answer"><span class="faq-mark">A</span><p>スマホのカメラを使ったQRコード・バーコード読み取りや、Bluetooth対応の測定機器との連携など、現場の作業を楽にする機能を追加できます。</p></div>
                         </details>
                     </div>
                 </div>
@@ -2512,7 +2568,7 @@
                         <li>
                             <div>
                                 <strong>Clickの利用料が別途必要です</strong>
-                                <p>Clickは、業務アプリを作成・運用できるノーコードのクラウドサービスです。アプリの運用には、Click Proプランの契約・月額費用が必要になります。</p>
+                                <p>業務アプリの作成・運用には、ノーコードツール「<a class="text-link" href="https://click.dev/" target="_blank" rel="noopener">Click</a>」の契約と月額費用が別途必要です。契約は年契約で、終了した場合はアプリを利用できなくなります。</p>
                             </div>
                         </li>
                         <li>
@@ -2529,7 +2585,7 @@
                         </li>
                         <li>
                             <div>
-                                <strong>納期は資料確認後に確定します</strong>
+                                <strong>納期は仕様確認後に確定します</strong>
                                 <p>最短納期は、必要な情報がそろっている場合の目安です。仕様確認や追加要望により調整する場合があります。</p>
                             </div>
                         </li>
@@ -2672,9 +2728,9 @@
         }
 
         const sampleAppUrls = {
-            change4m: "",
-            failureReportEntry: "",
-            failureReportCheck: "",
+            change4m: "https://4m-app_chek.click.dev/a877c467-55a6-45e6-be30-c60bf263f3aa?locale=ja&target=6a4ec4d3ef3",
+            failureReportEntry: "https://kosho_hokoku_app.click.dev/share-app/c17eac6d-cbc9-486e-99ca-4fbb806a8207?locale=ja&target=0a300c9891c08",
+            failureReportCheck: "https://hokokunaiyo_kakunin_app.click.dev/fbaa9a9e-8683-45c0-aa48-689f3265934a?locale=ja&debug=true&w=1200",
             general: ""
         };
 
@@ -2686,6 +2742,11 @@
 
                 const sampleKey = link.dataset.sampleApp;
                 const url = sampleAppUrls[sampleKey];
+
+                if (link.dataset.comingSoon === "true") {
+                    alert("このアプリは準備中です。");
+                    return;
+                }
 
                 if (!url) {
                     alert("サンプルアプリの公開URLを設定してください。");
